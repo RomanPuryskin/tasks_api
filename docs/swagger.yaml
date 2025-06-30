@@ -1,0 +1,155 @@
+definitions:
+  github_com_tasks_api_pkg_models.CreateTaskRequest:
+    description: Модель задачи для запроса на создание
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    type: object
+  github_com_tasks_api_pkg_models.Task:
+    description: Полная модель задачи
+    properties:
+      completed_at:
+        example: "2023-05-15T10:00:00Z"
+        format: date-time
+        type: string
+      created_at:
+        example: "2023-05-15T10:00:00Z"
+        format: date-time
+        type: string
+      description:
+        type: string
+      duration:
+        description: в минутах
+        type: integer
+      result:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API для управления задачами
+  title: tasks_api
+  version: "1.0"
+paths:
+  /tasks:
+    get:
+      consumes:
+      - application/json
+      description: Получает все имеющиеся задачи
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: '''error'': ''message'''
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: '''error'': ''message'''
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получить все задачи
+      tags:
+      - tasks
+    post:
+      consumes:
+      - application/json
+      description: Создает новую задачу
+      parameters:
+      - description: Данные задачи
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_tasks_api_pkg_models.CreateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Задача успешно создана
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: '''error'': ''message'''
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: '''error'': ''message'''
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Создать новую задачу
+      tags:
+      - tasks
+  /tasks/{title}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет задачу по Title
+      parameters:
+      - description: title задачи
+        in: path
+        name: title
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Задача успешно удалена
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: '''error'': ''message'''
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: '''error'': ''message'''
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Удалить задачу
+      tags:
+      - tasks
+    get:
+      consumes:
+      - application/json
+      description: Получает задачу по title
+      parameters:
+      - description: title задачи
+        in: path
+        name: title
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_tasks_api_pkg_models.Task'
+        "400":
+          description: '''error'': ''message'''
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: '''error'': ''message'''
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получить задачу
+      tags:
+      - tasks
+swagger: "2.0"
